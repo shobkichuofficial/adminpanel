@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>অর্ডার ম্যানেজমেন্ট ড্যাশবোর্ড</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #00796b;
+      --primary-light: #e8f5e9;
+      --secondary-color: #c8e6c9;
+      --text-color: #333;
+      --bg-color: #f4f7f6;
+      --white-color: #ffffff;
+      --border-color: #dddddd;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: var(--white-color);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      font-weight: 700;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    thead th {
+      background-color: var(--primary-color);
+      color: var(--white-color);
+      padding: 12px 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    tbody tr:nth-child(even) {
+      background-color: var(--primary-light);
+    }
+    tbody tr:hover {
+      background-color: var(--secondary-color);
+      transition: background-color 0.2s ease;
+    }
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+    .loader {
+      border: 6px solid var(--primary-light);
+      border-top: 6px solid var(--primary-color);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 4rem auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #error-message {
+        text-align: center;
+        color: #d32f2f;
+        background-color: #ffebee;
+        padding: 1rem;
+        border-radius: 8px;
+        display: none; /* Initially hidden */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>সবকিছু.কম - অর্ডার তালিকা</h1>
+    
+    <div id="loader" class="loader"></div>
+    <div id="error-message"></div>
+
+    <div id="table-wrapper" style="display:none;">
+      <table>
+        <thead>
+          <tr>
+            <th>অর্ডারের সময়</th>
+            <th>কাস্টমারের নাম</th>
+            <th>ফোন নম্বর</th>
+            <th>ঠিকানা</th>
+            <th>ডেলিভারি এলাকা</th>
+            <th>আইটেম</th>
+            <th>মোট টাকা</th>
+          </tr>
+        </thead>
+        <tbody id="order-data">
+          </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // আপনার Google Apps Script Web App URL টি এখানে দিন
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQCjKrtEMu4jj5ppWnnuMpJrOSIkKDVakGgwOeQUfyWWq0lsns14kLd0gMcd0HDS91/exec";
+
+    const loader = document.getElementById('loader');
+    const tableWrapper = document.getElementById('table-wrapper');
+    const tbody = document.getElementById('order-data');
+    const errorMessage = document.getElementById('error-message');
+
+    // ডেটা লোড করার জন্য ফাংশন
+    async function fetchOrders() {
+      try {
+        const response = await fetch(SCRIPT_URL);
+        if (!response.ok) {
+          throw new Error(`সার্ভার থেকে ডেটা আনতে সমস্যা হচ্ছে। স্ট্যাটাস: ${response.status}`);
+        }
+        const data = await response.json();
+        renderTable(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        loader.style.display = 'none';
+        errorMessage.textContent = "ডেটা লোড করা সম্ভব হয়নি। অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ এবং Apps Script URL টি চেক করুন।";
+        errorMessage.style.display = 'block';
+      }
+    }
+
+    // টেবিল তৈরি করার জন্য ফাংশন
+    function renderTable(orders) {
+      // প্রথমে টেবিল খালি করা হচ্ছে
+      tbody.innerHTML = '';
+      
+      if (orders.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 7;
+        td.textContent = 'কোনো অর্ডার পাওয়া যায়নি।';
+        td.style.textAlign = 'center';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      } else {
+        // নতুন অর্ডারগুলো সবার উপরে দেখানোর জন্য ডেটা উল্টে নেওয়া হলো
+        orders.reverse().forEach(order => {
+          const tr = document.createElement('tr');
+          
+          // Timestamp ফরম্যাট করা
+          const timestamp = new Date(order.timestamp).toLocaleString('bn-BD', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+          });
+
+          // ডেলিভারি এলাকা অনুবাদ
+          const deliveryLocation = order.deliveryLocation === 'inside' 
+            ? 'গোপালগঞ্জ (ভিতরে)' 
+            : 'অন্যান্য জেলা (বাহিরে)';
+
+          tr.innerHTML = `
+            <td>${timestamp}</td>
+            <td>${order.customerName}</td>
+            <td>${order.phoneNumber}</td>
+            <td>${order.address}</td>
+            <td>${deliveryLocation}</td>
+            <td>${order.items}</td>
+            <td>৳${order.totalAmount}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // ডেটা লোড হওয়ার পর লোডার লুকিয়ে টেবিল দেখানো হচ্ছে
+      loader.style.display = 'none';
+      tableWrapper.style.display = 'block';
+    }
+
+    // পেজ লোড হওয়ার সাথে সাথে ডেটা আনার জন্য ফাংশন কল করা হলো
+    document.addEventListener('DOMContentLoaded', fetchOrders);
+  </script>
+</body>
+</html>
