@@ -1,202 +1,285 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="bn" class="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>অর্ডার ম্যানেজমেন্ট ড্যাশবোর্ড</title>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>অ্যাডমিন প্যানেল – সবকিছু.com</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: { 'hind': ['Hind Siliguri', 'sans-serif'], },
+          colors: {
+            border: "hsl(var(--border))",
+            input: "hsl(var(--input))",
+            ring: "hsl(var(--ring))",
+            background: "hsl(var(--background))",
+            foreground: "hsl(var(--foreground))",
+            primary: {
+              DEFAULT: "hsl(var(--primary))",
+              foreground: "hsl(var(--primary-foreground))",
+            },
+            secondary: {
+              DEFAULT: "hsl(var(--secondary))",
+              foreground: "hsl(var(--secondary-foreground))",
+            },
+            muted: {
+              DEFAULT: "hsl(var(--muted))",
+              foreground: "hsl(var(--muted-foreground))",
+            },
+            accent: {
+              DEFAULT: "hsl(var(--accent))",
+              foreground: "hsl(var(--accent-foreground))",
+            },
+            card: {
+              DEFAULT: "hsl(var(--card))",
+              foreground: "hsl(var(--card-foreground))",
+            },
+          },
+        },
+      },
+    };
+  </script>
   <style>
     :root {
-      --primary-color: #00796b;
-      --primary-light: #e8f5e9;
-      --secondary-color: #c8e6c9;
-      --text-color: #333;
-      --bg-color: #f4f7f6;
-      --white-color: #ffffff;
-      --border-color: #dddddd;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --background: 120 20% 98%;
+      --foreground: 120 15% 15%;
+      --card: 0 0% 100%;
+      --card-foreground: 120 15% 15%;
+      --primary: 144 61% 35%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 48 96% 53%;
+      --secondary-foreground: 120 15% 15%;
+      --muted: 120 20% 96%;
+      --muted-foreground: 120 10% 50%;
+      --accent: 144 30% 90%;
+      --accent-foreground: 144 61% 35%;
+      --border: 120 20% 90%;
+      --input: 120 20% 95%;
+      --ring: 144 61% 35%;
     }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    .dark {
+      --background: 144 30% 8%;
+      --foreground: 120 15% 90%;
+      --card: 144 25% 12%;
+      --card-foreground: 120 15% 90%;
+      --primary: 144 70% 55%;
+      --primary-foreground: 144 30% 8%;
+      --secondary: 48 96% 60%;
+      --secondary-foreground: 144 30% 8%;
+      --muted: 144 20% 15%;
+      --muted-foreground: 120 10% 65%;
+      --accent: 144 25% 18%;
+      --accent-foreground: 144 70% 55%;
+      --border: 144 20% 18%;
+      --input: 144 20% 15%;
+      --ring: 144 70% 55%;
     }
-    body {
-      font-family: 'Hind Siliguri', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background-color: var(--white-color);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-    }
-    h1 {
-      text-align: center;
-      color: var(--primary-color);
-      margin-bottom: 2rem;
-      font-weight: 700;
-    }
-    .table-wrapper {
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
-    thead th {
-      background-color: var(--primary-color);
-      color: var(--white-color);
-      padding: 12px 15px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    tbody tr:nth-child(even) {
-      background-color: var(--primary-light);
-    }
-    tbody tr:hover {
-      background-color: var(--secondary-color);
-      transition: background-color 0.2s ease;
-    }
-    td {
-      padding: 12px 15px;
-      border-bottom: 1px solid var(--border-color);
-      vertical-align: middle;
-    }
-    .loader {
-      border: 6px solid var(--primary-light);
-      border-top: 6px solid var(--primary-color);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 4rem auto;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    #error-message {
-        text-align: center;
-        color: #d32f2f;
-        background-color: #ffebee;
-        padding: 1rem;
-        border-radius: 8px;
-        display: none; /* Initially hidden */
-    }
+    body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); font-family: 'Hind Siliguri', sans-serif; }
+    .text-gradient { background-image: linear-gradient(135deg, hsl(144, 61%, 35%), hsl(144, 70%, 45%)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .dark .text-gradient { background-image: linear-gradient(135deg, hsl(144, 70%, 45%), hsl(144, 80%, 55%)); }
   </style>
 </head>
-<body>
-  <div class="container">
-    <h1>সবকিছু.কম - অর্ডার তালিকা</h1>
-    
-    <div id="loader" class="loader"></div>
-    <div id="error-message"></div>
+<body class="min-h-screen bg-background">
 
-    <div id="table-wrapper" style="display:none;">
-      <table>
-        <thead>
-          <tr>
-            <th>অর্ডারের সময়</th>
-            <th>কাস্টমারের নাম</th>
-            <th>ফোন নম্বর</th>
-            <th>ঠিকানা</th>
-            <th>ডেলিভারি এলাকা</th>
-            <th>আইটেম</th>
-            <th>মোট টাকা</th>
-          </tr>
-        </thead>
-        <tbody id="order-data">
-          </tbody>
-      </table>
+  <div id="login-overlay" class="fixed inset-0 bg-background z-50 flex items-center justify-center p-4">
+    <div class="w-full max-w-sm">
+      <div class="text-center mb-6">
+        <img src="logo_3.jpg" alt="লোগো" class="w-20 h-20 rounded-full mx-auto mb-4" />
+        <h1 class="text-2xl font-bold text-gradient">অ্যাডমিন লগইন</h1>
+        <p class="text-muted-foreground">প্যানেল অ্যাক্সেস করতে লগইন করুন</p>
+      </div>
+      <form id="login-form" class="bg-card border border-border rounded-lg p-8 shadow-lg space-y-6">
+        <div class="space-y-2">
+            <label for="password" class="text-sm font-medium">পাসওয়ার্ড</label>
+            <input type="password" id="password" name="password" required class="w-full p-2 border rounded-md bg-input focus:ring-2 focus:ring-ring" />
+        </div>
+        <p id="login-error" class="text-red-500 text-sm hidden">ভুল পাসওয়ার্ড। আবার চেষ্টা করুন।</p>
+        <button type="submit" class="w-full bg-primary text-primary-foreground py-2 rounded-md hover:opacity-90 transition-opacity text-lg">লগইন</button>
+      </form>
     </div>
   </div>
 
-  <script>
-    // আপনার Google Apps Script Web App URL টি এখানে দিন
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQCjKrtEMu4jj5ppWnnuMpJrOSIkKDVakGgwOeQUfyWWq0lsns14kLd0gMcd0HDS91/exec";
+  <div id="main-content" class="hidden">
+    <header class="sticky top-0 z-40 bg-card/95 backdrop-blur-md border-b border-border">
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <img src="logo_3.jpg" alt="লোগো" class="w-12 h-12 rounded-full" />
+            <div>
+              <h1 class="text-xl font-bold text-gradient">অ্যাডমিন প্যানেল</h1>
+              <p class="text-sm text-muted-foreground">সবকিছু.com</p>
+            </div>
+          </div>
+          <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-accent hover:text-primary transition-colors">
+            <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+        </div>
+      </div>
+    </header>
 
-    const loader = document.getElementById('loader');
-    const tableWrapper = document.getElementById('table-wrapper');
-    const tbody = document.getElementById('order-data');
-    const errorMessage = document.getElementById('error-message');
-
-    // ডেটা লোড করার জন্য ফাংশন
-    async function fetchOrders() {
-      try {
-        const response = await fetch(SCRIPT_URL);
-        if (!response.ok) {
-          throw new Error(`সার্ভার থেকে ডেটা আনতে সমস্যা হচ্ছে। স্ট্যাটাস: ${response.status}`);
-        }
-        const data = await response.json();
-        renderTable(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        loader.style.display = 'none';
-        errorMessage.textContent = "ডেটা লোড করা সম্ভব হয়নি। অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ এবং Apps Script URL টি চেক করুন।";
-        errorMessage.style.display = 'block';
-      }
-    }
-
-    // টেবিল তৈরি করার জন্য ফাংশন
-    function renderTable(orders) {
-      // প্রথমে টেবিল খালি করা হচ্ছে
-      tbody.innerHTML = '';
+    <main class="container mx-auto px-4 py-8">
+      <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-foreground">অর্ডার ম্যানেজমেন্ট</h2>
+          <button id="reload-btn" class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity">
+              ডেটা রিলোড করুন
+          </button>
+      </div>
       
-      if (orders.length === 0) {
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 7;
-        td.textContent = 'কোনো অর্ডার পাওয়া যায়নি।';
-        td.style.textAlign = 'center';
-        tr.appendChild(td);
-        tbody.appendChild(tr);
-      } else {
-        // নতুন অর্ডারগুলো সবার উপরে দেখানোর জন্য ডেটা উল্টে নেওয়া হলো
-        orders.reverse().forEach(order => {
-          const tr = document.createElement('tr');
-          
-          // Timestamp ফরম্যাট করা
-          const timestamp = new Date(order.timestamp).toLocaleString('bn-BD', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: true
-          });
+      <div id="loading-spinner" class="text-center py-10">
+          <svg class="animate-spin h-8 w-8 text-primary mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <p class="mt-2 text-muted-foreground">ডেটা লোড হচ্ছে...</p>
+      </div>
 
-          // ডেলিভারি এলাকা অনুবাদ
-          const deliveryLocation = order.deliveryLocation === 'inside' 
-            ? 'গোপালগঞ্জ (ভিতরে)' 
-            : 'অন্যান্য জেলা (বাহিরে)';
+      <div id="error-message" class="hidden text-center py-10 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg">
+        <p id="error-text"></p>
+      </div>
 
-          tr.innerHTML = `
-            <td>${timestamp}</td>
-            <td>${order.customerName}</td>
-            <td>${order.phoneNumber}</td>
-            <td>${order.address}</td>
-            <td>${deliveryLocation}</td>
-            <td>${order.items}</td>
-            <td>৳${order.totalAmount}</td>
-          `;
-          tbody.appendChild(tr);
+      <div class="bg-card border border-border rounded-lg shadow-md overflow-hidden hidden" id="orders-container">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left text-foreground">
+            <thead class="bg-muted/50 text-muted-foreground uppercase">
+              <tr>
+                <th scope="col" class="px-6 py-3">অর্ডার টাইম</th>
+                <th scope="col" class="px-6 py-3">গ্রাহকের নাম</th>
+                <th scope="col" class="px-6 py-3">ফোন নম্বর</th>
+                <th scope="col" class="px-6 py-3">ঠিকানা</th>
+                <th scope="col" class="px-6 py-3">পণ্য</th>
+                <th scope="col" class="px-6 py-3">ডেলিভারি এলাকা</th>
+                <th scope="col" class="px-6 py-3">মোট মূল্য</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body">
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // --- URLs and Constants ---
+    const SPREADSHEET_GET_URL = "https://script.google.com/macros/s/AKfycbzQCjKrtEMu4jj5ppWnnuMpJrOSIkKDVakGgwOeQUfyWWq0lsns14kLd0gMcd0HDS91/exec";
+    const CORRECT_PASSWORD = "Admin69";
+
+    // --- DOM Elements ---
+    const loginOverlay = document.getElementById('login-overlay');
+    const loginForm = document.getElementById('login-form');
+    const passwordInput = document.getElementById('password');
+    const loginError = document.getElementById('login-error');
+    const mainContent = document.getElementById('main-content');
+    
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const themeIconSun = document.getElementById('theme-icon-sun');
+    const themeIconMoon = document.getElementById('theme-icon-moon');
+    const ordersTableBody = document.getElementById('orders-table-body');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const ordersContainer = document.getElementById('orders-container');
+    const errorMessage = document.getElementById('error-message');
+    const errorText = document.getElementById('error-text');
+    const reloadBtn = document.getElementById('reload-btn');
+
+    // --- English to Bengali Number Converter ---
+    const en_to_bn = { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' };
+    const convert_to_bengali_date = (dateString) => {
+        const date = new Date(dateString);
+        let formattedDate = date.toLocaleString('en-US', { 
+            year: 'numeric', month: '2-digit', day: '2-digit', 
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
         });
-      }
+        return formattedDate;
+    };
 
-      // ডেটা লোড হওয়ার পর লোডার লুকিয়ে টেবিল দেখানো হচ্ছে
-      loader.style.display = 'none';
-      tableWrapper.style.display = 'block';
+    // --- Login Logic ---
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const enteredPassword = passwordInput.value;
+        if (enteredPassword === CORRECT_PASSWORD) {
+            loginOverlay.style.display = 'none';
+            mainContent.classList.remove('hidden');
+            // Fetch data only after successful login
+            fetchOrders();
+        } else {
+            loginError.classList.remove('hidden');
+            passwordInput.focus();
+        }
+    });
+
+    // --- Theme Logic ---
+    function updateTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      themeIconSun.classList.toggle('hidden', !isDark);
+      themeIconMoon.classList.toggle('hidden', isDark);
+    }
+    
+    // --- Data Fetching and Display Logic ---
+    async function fetchOrders() {
+        loadingSpinner.style.display = 'block';
+        ordersContainer.classList.add('hidden');
+        errorMessage.classList.add('hidden');
+
+        try {
+            const response = await fetch(SPREADSHEET_GET_URL);
+            if (!response.ok) {
+                throw new Error(`নেটওয়ার্ক সমস্যা: ${response.statusText}`);
+            }
+            const data = await response.json();
+            
+            if (data && Array.isArray(data)) {
+                displayOrders(data.reverse()); // Show newest orders first
+            } else {
+                 throw new Error("সঠিক ডেটা পাওয়া যায়নি।");
+            }
+        } catch (error) {
+            console.error('ডেটা লোড করতে সমস্যা হয়েছে:', error);
+            errorText.textContent = `ডেটা লোড করতে ব্যর্থ: ${error.message}`;
+            errorMessage.classList.remove('hidden');
+        } finally {
+            loadingSpinner.style.display = 'none';
+        }
     }
 
-    // পেজ লোড হওয়ার সাথে সাথে ডেটা আনার জন্য ফাংশন কল করা হলো
-    document.addEventListener('DOMContentLoaded', fetchOrders);
+    function displayOrders(orders) {
+        ordersTableBody.innerHTML = ''; // Clear previous data
+        if (orders.length === 0) {
+            ordersTableBody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-muted-foreground">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
+        } else {
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-border hover:bg-muted/50';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">${convert_to_bengali_date(order.timestamp)}</td>
+                    <td class="px-6 py-4 font-medium">${order.customerName}</td>
+                    <td class="px-6 py-4">${order.phoneNumber}</td>
+                    <td class="px-6 py-4">${order.address}</td>
+                    <td class="px-6 py-4">${order.items}</td>
+                    <td class="px-6 py-4">${order.deliveryLocation === 'inside' ? 'গোপালগঞ্জ' : 'অন্যান্য জেলা'}</td>
+                    <td class="px-6 py-4 font-bold">৳${order.totalAmount}</td>
+                `;
+                ordersTableBody.appendChild(row);
+            });
+        }
+        ordersContainer.classList.remove('hidden');
+    }
+    
+    // --- Event Listeners ---
+    themeToggleBtn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      updateTheme();
+    });
+    
+    reloadBtn.addEventListener('click', fetchOrders);
+
+    // --- Initial Setup ---
+    updateTheme();
+    // Do not fetch orders on initial load, wait for login
   </script>
 </body>
 </html>
