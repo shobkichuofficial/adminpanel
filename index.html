@@ -88,7 +88,6 @@
   <div id="login-overlay" class="fixed inset-0 bg-background z-50 flex items-center justify-center p-4">
     <div class="w-full max-w-sm">
       <div class="text-center mb-6">
-        <img src="logo_3.jpg" alt="লোগো" class="w-20 h-20 rounded-full mx-auto mb-4" />
         <h1 class="text-2xl font-bold text-gradient">অ্যাডমিন লগইন</h1>
         <p class="text-muted-foreground">প্যানেল অ্যাক্সেস করতে লগইন করুন</p>
       </div>
@@ -108,7 +107,6 @@
       <div class="container mx-auto px-4 py-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-4">
-            <img src="logo_3.jpg" alt="লোগো" class="w-12 h-12 rounded-full" />
             <div>
               <h1 class="text-xl font-bold text-gradient">অ্যাডমিন প্যানেল</h1>
               <p class="text-sm text-muted-foreground">সবকিছু.com</p>
@@ -154,6 +152,7 @@
                 <th scope="col" class="px-6 py-3">পণ্য</th>
                 <th scope="col" class="px-6 py-3">ডেলিভারি এলাকা</th>
                 <th scope="col" class="px-6 py-3">মোট মূল্য</th>
+                <th scope="col" class="px-6 py-3">ডেলিভারি স্ট্যাটাস</th>
               </tr>
             </thead>
             <tbody id="orders-table-body">
@@ -163,11 +162,15 @@
       </div>
     </main>
   </div>
+  
+  <div id="toast-notification" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg hidden transition-transform duration-300">
+    <p id="toast-message"></p>
+  </div>
 
   <script>
     // --- URLs and Constants ---
-    const SPREADSHEET_GET_URL = "https://script.google.com/macros/s/AKfycbzQCjKrtEMu4jj5ppWnnuMpJrOSIkKDVakGgwOeQUfyWWq0lsns14kLd0gMcd0HDS91/exec";
-    const CORRECT_PASSWORD = "Admin69";
+    const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzQCjKrtEMu4jj5ppWnnuMpJrOSIkKDVakGgwOeQUfyWWq0lsns14kLd0gMcd0HDS91/exec";
+    const CORRECT_PASSWORD = "Admin69"; // <-- আপনার আসল পাসওয়ার্ড এখানে দিন
 
     // --- DOM Elements ---
     const loginOverlay = document.getElementById('login-overlay');
@@ -185,30 +188,28 @@
     const errorMessage = document.getElementById('error-message');
     const errorText = document.getElementById('error-text');
     const reloadBtn = document.getElementById('reload-btn');
+    const toastNotification = document.getElementById('toast-notification');
+    const toastMessage = document.getElementById('toast-message');
 
-    // --- English to Bengali Number Converter ---
-    const en_to_bn = { '0': '০', '1': '১', '2': '২', '3': '৩', '4': '৪', '5': '৫', '6': '৬', '7': '৭', '8': '৮', '9': '৯' };
-    const convert_to_bengali_date = (dateString) => {
+    // --- Date Formatting ---
+    const format_bengali_date = (dateString) => {
         const date = new Date(dateString);
-        let formattedDate = date.toLocaleString('en-US', { 
-            year: 'numeric', month: '2-digit', day: '2-digit', 
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true 
+        // Using 'bn-BD' locale for Bengali formatting
+        return date.toLocaleString('bn-BD', { 
+            year: 'numeric', month: 'long', day: 'numeric', 
+            hour: '2-digit', minute: '2-digit', hour12: true 
         });
-        return formattedDate;
     };
 
     // --- Login Logic ---
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const enteredPassword = passwordInput.value;
-        if (enteredPassword === CORRECT_PASSWORD) {
+        if (passwordInput.value === CORRECT_PASSWORD) {
             loginOverlay.style.display = 'none';
             mainContent.classList.remove('hidden');
-            // Fetch data only after successful login
             fetchOrders();
         } else {
             loginError.classList.remove('hidden');
-            passwordInput.focus();
         }
     });
 
@@ -219,6 +220,15 @@
       themeIconMoon.classList.toggle('hidden', isDark);
     }
     
+    // Check for saved theme preference
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+    updateTheme();
+
+
     // --- Data Fetching and Display Logic ---
     async function fetchOrders() {
         loadingSpinner.style.display = 'block';
@@ -226,60 +236,133 @@
         errorMessage.classList.add('hidden');
 
         try {
-            const response = await fetch(SPREADSHEET_GET_URL);
-            if (!response.ok) {
-                throw new Error(`নেটওয়ার্ক সমস্যা: ${response.statusText}`);
-            }
+            const response = await fetch(SPREADSHEET_URL);
+            if (!response.ok) throw new Error(`নেটওয়ার্ক সমস্যা: ${response.statusText}`);
             const data = await response.json();
             
+            // Check for errors from the Apps Script itself
+            if (data.status === 'error') throw new Error(data.message);
+
             if (data && Array.isArray(data)) {
-                displayOrders(data.reverse()); // Show newest orders first
+                displayOrders(data.reverse()); // নতুন অর্ডার প্রথমে দেখাবে
             } else {
-                 throw new Error("সঠিক ডেটা পাওয়া যায়নি।");
+                throw new Error("সঠিক ডেটা পাওয়া যায়নি।");
             }
         } catch (error) {
-            console.error('ডেটা লোড করতে সমস্যা হয়েছে:', error);
-            errorText.textContent = `ডেটা লোড করতে ব্যর্থ: ${error.message}`;
-            errorMessage.classList.remove('hidden');
+            showError(`ডেটা লোড করতে ব্যর্থ: ${error.message}`);
         } finally {
             loadingSpinner.style.display = 'none';
         }
     }
 
     function displayOrders(orders) {
-        ordersTableBody.innerHTML = ''; // Clear previous data
+        ordersTableBody.innerHTML = '';
         if (orders.length === 0) {
-            ordersTableBody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-muted-foreground">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
+            ordersTableBody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-muted-foreground">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
         } else {
             orders.forEach(order => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-border hover:bg-muted/50';
+                
+                // Ensure all order properties exist to avoid 'undefined'
+                const timestamp = order.timestamp ? format_bengali_date(order.timestamp) : 'N/A';
+                const customerName = order.customerName || 'N/A';
+                const phoneNumber = order.phoneNumber || 'N/A';
+                const address = order.address || 'N/A';
+                const items = order.items || 'N/A';
+                const deliveryLocation = order.deliveryLocation === 'inside' ? 'গোপালগঞ্জ' : 'অন্যান্য জেলা';
+                const totalAmount = order.totalAmount ? `৳${order.totalAmount}` : 'N/A';
+                const deliveryStatus = order.deliveryStatus || 'Pending';
+
                 row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap">${convert_to_bengali_date(order.timestamp)}</td>
-                    <td class="px-6 py-4 font-medium">${order.customerName}</td>
-                    <td class="px-6 py-4">${order.phoneNumber}</td>
-                    <td class="px-6 py-4">${order.address}</td>
-                    <td class="px-6 py-4">${order.items}</td>
-                    <td class="px-6 py-4">${order.deliveryLocation === 'inside' ? 'গোপালগঞ্জ' : 'অন্যান্য জেলা'}</td>
-                    <td class="px-6 py-4 font-bold">৳${order.totalAmount}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${timestamp}</td>
+                    <td class="px-6 py-4 font-medium">${customerName}</td>
+                    <td class="px-6 py-4">${phoneNumber}</td>
+                    <td class="px-6 py-4">${address}</td>
+                    <td class="px-6 py-4">${items}</td>
+                    <td class="px-6 py-4">${deliveryLocation}</td>
+                    <td class="px-6 py-4 font-bold">${totalAmount}</td>
+                    <td class="px-6 py-4">
+                        <select onchange="updateStatus(${order.rowIndex}, this.value)" class="bg-input border border-border rounded-md p-2 focus:ring-2 focus:ring-ring">
+                            <option value="Pending" ${deliveryStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Shipped" ${deliveryStatus === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="Delivered" ${deliveryStatus === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Canceled" ${deliveryStatus === 'Canceled' ? 'selected' : ''}>Canceled</option>
+                        </select>
+                    </td>
                 `;
                 ordersTableBody.appendChild(row);
             });
         }
         ordersContainer.classList.remove('hidden');
     }
+
+    // --- Status Update Logic ---
+    async function updateStatus(rowIndex, newStatus) {
+      showToast('স্ট্যাটাস আপডেট করা হচ্ছে...');
+      try {
+        const response = await fetch(SPREADSHEET_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'updateStatus', rowIndex: rowIndex, status: newStatus })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`সার্ভার এরর: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+          showToast(result.message, 'success');
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        showError(`স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে: ${error.message}`);
+        showToast('আপডেট ব্যর্থ হয়েছে', 'error');
+      }
+    }
     
+    // --- UI Helper Functions ---
+    function showError(message) {
+      errorText.textContent = message;
+      errorMessage.classList.remove('hidden');
+    }
+    
+    function showToast(message, type = 'info') {
+        toastMessage.textContent = message;
+
+        // Reset classes
+        toastNotification.classList.remove('bg-green-500', 'bg-red-500');
+
+        if (type === 'success') {
+            toastNotification.classList.add('bg-green-500');
+        } else if (type === 'error') {
+            toastNotification.classList.add('bg-red-500');
+        } else { // 'info'
+            toastNotification.classList.add('bg-blue-500');
+        }
+
+        toastNotification.classList.remove('hidden');
+        setTimeout(() => {
+            toastNotification.classList.add('hidden');
+        }, 3000);
+    }
+
     // --- Event Listeners ---
     themeToggleBtn.addEventListener('click', () => {
       document.documentElement.classList.toggle('dark');
+      if (document.documentElement.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
       updateTheme();
     });
     
     reloadBtn.addEventListener('click', fetchOrders);
 
-    // --- Initial Setup ---
-    updateTheme();
-    // Do not fetch orders on initial load, wait for login
   </script>
 </body>
 </html>
