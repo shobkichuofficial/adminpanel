@@ -1,173 +1,160 @@
 <!DOCTYPE html>
 <html lang="bn" class="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>অ্যাডমিন প্যানেল – সবকিছু.com</title>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          fontFamily: { 'hind': ['Hind Siliguri', 'sans-serif'], },
-          colors: {
-            border: "hsl(var(--border))",
-            input: "hsl(var(--input))",
-            ring: "hsl(var(--ring))",
-            background: "hsl(var(--background))",
-            foreground: "hsl(var(--foreground))",
-            primary: {
-              DEFAULT: "hsl(var(--primary))",
-              foreground: "hsl(var(--primary-foreground))",
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>অ্যাডমিন প্যানেল – সবকিছু.com</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    fontFamily: { 'hind': ['Hind Siliguri', 'sans-serif'], },
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))", },
+                        secondary: { DEFAULT: "hsl(var(--secondary))", foreground: "hsl(var(--secondary-foreground))", },
+                        muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))", },
+                        accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))", },
+                        card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))", },
+                    },
+                },
             },
-            secondary: {
-              DEFAULT: "hsl(var(--secondary))",
-              foreground: "hsl(var(--secondary-foreground))",
-            },
-            muted: {
-              DEFAULT: "hsl(var(--muted))",
-              foreground: "hsl(var(--muted-foreground))",
-            },
-            accent: {
-              DEFAULT: "hsl(var(--accent))",
-              foreground: "hsl(var(--accent-foreground))",
-            },
-            card: {
-              DEFAULT: "hsl(var(--card))",
-              foreground: "hsl(var(--card-foreground))",
-            },
-          },
-        },
-      },
-    };
-  </script>
-  <style>
-    :root {
-      --background: 120 20% 98%;
-      --foreground: 120 15% 15%;
-      --card: 0 0% 100%;
-      --card-foreground: 120 15% 15%;
-      --primary: 144 61% 35%;
-      --primary-foreground: 0 0% 100%;
-      --secondary: 48 96% 53%;
-      --secondary-foreground: 120 15% 15%;
-      --muted: 120 20% 96%;
-      --muted-foreground: 120 10% 50%;
-      --accent: 144 30% 90%;
-      --accent-foreground: 144 61% 35%;
-      --border: 120 20% 90%;
-      --input: 120 20% 95%;
-      --ring: 144 61% 35%;
-    }
-    .dark {
-      --background: 144 30% 8%;
-      --foreground: 120 15% 90%;
-      --card: 144 25% 12%;
-      --card-foreground: 120 15% 90%;
-      --primary: 144 70% 55%;
-      --primary-foreground: 144 30% 8%;
-      --secondary: 48 96% 60%;
-      --secondary-foreground: 144 30% 8%;
-      --muted: 144 20% 15%;
-      --muted-foreground: 120 10% 65%;
-      --accent: 144 25% 18%;
-      --accent-foreground: 144 70% 55%;
-      --border: 144 20% 18%;
-      --input: 144 20% 15%;
-      --ring: 144 70% 55%;
-    }
-    body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); font-family: 'Hind Siliguri', sans-serif; }
-    .text-gradient { background-image: linear-gradient(135deg, hsl(144, 61%, 35%), hsl(144, 70%, 45%)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .dark .text-gradient { background-image: linear-gradient(135deg, hsl(144, 70%, 45%), hsl(144, 80%, 55%)); }
-  </style>
+        };
+    </script>
+    <style>
+        :root {
+            --background: 120 20% 98%; --foreground: 120 15% 15%; --card: 0 0% 100%; --card-foreground: 120 15% 15%; --primary: 144 61% 35%; --primary-foreground: 0 0% 100%; --secondary: 48 96% 53%; --secondary-foreground: 120 15% 15%; --muted: 120 20% 96%; --muted-foreground: 120 10% 50%; --accent: 144 30% 90%; --accent-foreground: 144 61% 35%; --border: 120 20% 90%; --input: 120 20% 95%; --ring: 144 61% 35%;
+        }
+        .dark {
+            --background: 144 30% 8%; --foreground: 120 15% 90%; --card: 144 25% 12%; --card-foreground: 120 15% 90%; --primary: 144 70% 55%; --primary-foreground: 144 30% 8%; --secondary: 48 96% 60%; --secondary-foreground: 144 30% 8%; --muted: 144 20% 15%; --muted-foreground: 120 10% 65%; --accent: 144 25% 18%; --accent-foreground: 144 70% 55%; --border: 144 20% 18%; --input: 144 20% 15%; --ring: 144 70% 55%;
+        }
+        body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); font-family: 'Hind Siliguri', sans-serif; }
+        .text-gradient { background-image: linear-gradient(135deg, hsl(144, 61%, 35%), hsl(144, 70%, 45%)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .dark .text-gradient { background-image: linear-gradient(135deg, hsl(144, 70%, 45%), hsl(144, 80%, 55%)); }
+    </style>
 </head>
 <body class="min-h-screen bg-background">
 
-  <div id="login-overlay" class="fixed inset-0 bg-background z-50 flex items-center justify-center p-4">
-    <div class="w-full max-w-sm">
-      <div class="text-center mb-6">
-        <h1 class="text-2xl font-bold text-gradient">অ্যাডমিন লগইন</h1>
-        <p class="text-muted-foreground">প্যানেল অ্যাক্সেস করতে লগইন করুন</p>
-      </div>
-      <form id="login-form" class="bg-card border border-border rounded-lg p-8 shadow-lg space-y-6">
-        <div class="space-y-2">
-            <label for="password" class="text-sm font-medium">পাসওয়ার্ড</label>
-            <input type="password" id="password" name="password" required class="w-full p-2 border rounded-md bg-input focus:ring-2 focus:ring-ring" />
-        </div>
-        <p id="login-error" class="text-red-500 text-sm hidden">ভুল পাসওয়ার্ড। আবার চেষ্টা করুন।</p>
-        <button type="submit" class="w-full bg-primary text-primary-foreground py-2 rounded-md hover:opacity-90 transition-opacity text-lg">লগইন</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="main-content" class="hidden">
-    <header class="sticky top-0 z-40 bg-card/95 backdrop-blur-md border-b border-border">
-      <div class="container mx-auto px-4 py-3">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-4">
-            <div>
-              <h1 class="text-xl font-bold text-gradient">অ্যাডমিন প্যানেল</h1>
-              <p class="text-sm text-muted-foreground">সবকিছু.com</p>
+    <div id="login-overlay" class="fixed inset-0 bg-background z-50 flex items-center justify-center p-4">
+        <div class="w-full max-w-sm">
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-bold text-gradient">অ্যাডমিন লগইন</h1>
+                <p class="text-muted-foreground">প্যানেল অ্যাক্সেস করতে লগইন করুন</p>
             </div>
-          </div>
-          <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-accent hover:text-primary transition-colors">
-            <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-          </button>
+            <form id="login-form" class="bg-card border border-border rounded-lg p-8 shadow-lg space-y-6">
+                <div class="space-y-2">
+                    <label for="password" class="text-sm font-medium">পাসওয়ার্ড</label>
+                    <input type="password" id="password" name="password" required class="w-full p-2 border rounded-md bg-input focus:ring-2 focus:ring-ring" />
+                </div>
+                <p id="login-error" class="text-red-500 text-sm hidden">ভুল পাসওয়ার্ড। আবার চেষ্টা করুন।</p>
+                <button type="submit" class="w-full bg-primary text-primary-foreground py-2 rounded-md hover:opacity-90 transition-opacity text-lg">লগইন</button>
+            </form>
         </div>
-      </div>
-    </header>
+    </div>
 
-    <main class="container mx-auto px-4 py-8">
-      <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold text-foreground">অর্ডার ম্যানেজমেন্ট</h2>
-          <button id="reload-btn" class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity">
-              ডেটা রিলোড করুন
-          </button>
-      </div>
-      
-      <div id="loading-spinner" class="text-center py-10">
-          <svg class="animate-spin h-8 w-8 text-primary mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <p class="mt-2 text-muted-foreground">ডেটা লোড হচ্ছে...</p>
-      </div>
+    <div id="main-content" class="hidden">
+        <header class="sticky top-0 z-40 bg-card/95 backdrop-blur-md border-b border-border">
+            <div class="container mx-auto px-4 py-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div>
+                            <h1 class="text-xl font-bold text-gradient">অ্যাডমিন প্যানেল</h1>
+                            <p class="text-sm text-muted-foreground">সবকিছু.com</p>
+                        </div>
+                    </div>
+                    <button id="theme-toggle-btn" class="p-2 rounded-full hover:bg-accent hover:text-primary transition-colors">
+                        <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
 
-      <div id="error-message" class="hidden text-center py-10 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg">
-        <p id="error-text"></p>
-      </div>
+        <main class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <p class="text-sm font-medium text-muted-foreground">মোট আয়</p>
+                    <h3 id="total-revenue" class="text-3xl font-bold text-foreground mt-1">৳০</h3>
+                </div>
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <p class="text-sm font-medium text-muted-foreground">সফল অর্ডার</p>
+                    <h3 id="total-orders" class="text-3xl font-bold text-foreground mt-1">০</h3>
+                </div>
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <p class="text-sm font-medium text-muted-foreground">বাতিল অর্ডার</p>
+                    <h3 id="canceled-orders" class="text-3xl font-bold text-red-600 dark:text-red-500 mt-1">০</h3>
+                </div>
+            </div>
 
-      <div class="bg-card border border-border rounded-lg shadow-md overflow-hidden hidden" id="orders-container">
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm text-left text-foreground">
-            <thead class="bg-muted/50 text-muted-foreground uppercase">
-              <tr>
-                <th scope="col" class="px-6 py-3">অর্ডার টাইম</th>
-                <th scope="col" class="px-6 py-3">গ্রাহকের নাম</th>
-                <th scope="col" class="px-6 py-3">ফোন নম্বর</th>
-                <th scope="col" class="px-6 py-3">ঠিকানা</th>
-                <th scope="col" class="px-6 py-3">পণ্য</th>
-                <th scope="col" class="px-6 py-3">ডেলিভারি এলাকা</th>
-                <th scope="col" class="px-6 py-3">মোট মূল্য</th>
-                <th scope="col" class="px-6 py-3">ডেলিভারি স্ট্যাটাস</th>
-              </tr>
-            </thead>
-            <tbody id="orders-table-body">
-              </tbody>
-          </table>
-        </div>
-      </div>
-    </main>
-  </div>
-  
-  <div id="toast-notification" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg hidden transition-transform duration-300">
-    <p id="toast-message"></p>
-  </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <p class="text-sm font-medium text-muted-foreground">আজকের সেল</p>
+                    <h3 id="today-sales" class="text-2xl font-bold text-foreground mt-1">৳০</h3>
+                </div>
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <p class="text-sm font-medium text-muted-foreground">এই মাসের সেল</p>
+                    <h3 id="month-sales" class="text-2xl font-bold text-foreground mt-1">৳০</h3>
+                </div>
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <p class="text-sm font-medium text-muted-foreground">এই বছরের সেল</p>
+                    <h3 id="year-sales" class="text-2xl font-bold text-foreground mt-1">৳০</h3>
+                </div>
+            </div>
 
-  <script>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-foreground">অর্ডার ম্যানেজমেন্ট</h2>
+                <button id="reload-btn" class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity">
+                    ডেটা রিলোড করুন
+                </button>
+            </div>
+            
+            <div id="loading-spinner" class="text-center py-10">
+                <svg class="animate-spin h-8 w-8 text-primary mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="mt-2 text-muted-foreground">ডেটা লোড হচ্ছে...</p>
+            </div>
+
+            <div id="error-message" class="hidden text-center py-10 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg">
+                <p id="error-text"></p>
+            </div>
+
+            <div class="bg-card border border-border rounded-lg shadow-md overflow-hidden hidden" id="orders-container">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-foreground">
+                        <thead class="bg-muted/50 text-muted-foreground uppercase">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">অর্ডার টাইম</th>
+                                <th scope="col" class="px-6 py-3">গ্রাহকের নাম</th>
+                                <th scope="col" class="px-6 py-3">ফোন নম্বর</th>
+                                <th scope="col" class="px-6 py-3">ঠিকানা</th>
+                                <th scope="col" class="px-6 py-3">পণ্য</th>
+                                <th scope="col" class="px-6 py-3">ডেলিভারি এলাকা</th>
+                                <th scope="col" class="px-6 py-3">মোট মূল্য</th>
+                                <th scope="col" class="px-6 py-3">ডেলিভারি স্ট্যাটাস</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg hidden transition-transform duration-300">
+        <p id="toast-message"></p>
+    </div>
+
+    <script>
     // --- URLs and Constants ---
     const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzQCjKrtEMu4jj5ppWnnuMpJrOSIkKDVakGgwOeQUfyWWq0lsns14kLd0gMcd0HDS91/exec";
     const CORRECT_PASSWORD = "Admin69"; // <-- আপনার আসল পাসওয়ার্ড এখানে দিন
@@ -191,14 +178,25 @@
     const toastNotification = document.getElementById('toast-notification');
     const toastMessage = document.getElementById('toast-message');
 
-    // --- Date Formatting ---
-    const format_bengali_date = (dateString) => {
+    // Dashboard elements
+    const totalRevenueEl = document.getElementById('total-revenue');
+    const totalOrdersEl = document.getElementById('total-orders');
+    const canceledOrdersEl = document.getElementById('canceled-orders');
+    const todaySalesEl = document.getElementById('today-sales');
+    const monthSalesEl = document.getElementById('month-sales');
+    const yearSalesEl = document.getElementById('year-sales');
+
+    // --- Helper Functions ---
+    const formatBengaliDate = (dateString) => {
         const date = new Date(dateString);
-        // Using 'bn-BD' locale for Bengali formatting
-        return date.toLocaleString('bn-BD', { 
-            year: 'numeric', month: 'long', day: 'numeric', 
-            hour: '2-digit', minute: '2-digit', hour12: true 
+        return date.toLocaleString('bn-BD', {
+            year: 'numeric', month: 'long', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', hour12: true
         });
+    };
+    
+    const formatCurrency = (amount) => {
+        return `৳${amount.toLocaleString('bn-BD')}`;
     };
 
     // --- Login Logic ---
@@ -215,12 +213,11 @@
 
     // --- Theme Logic ---
     function updateTheme() {
-      const isDark = document.documentElement.classList.contains('dark');
-      themeIconSun.classList.toggle('hidden', !isDark);
-      themeIconMoon.classList.toggle('hidden', isDark);
+        const isDark = document.documentElement.classList.contains('dark');
+        themeIconSun.classList.toggle('hidden', !isDark);
+        themeIconMoon.classList.toggle('hidden', isDark);
     }
     
-    // Check for saved theme preference
     if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
     } else {
@@ -228,6 +225,51 @@
     }
     updateTheme();
 
+    // --- Data Processing and Analytics ---
+    function processAnalytics(orders) {
+        let totalRevenue = 0;
+        let successfulOrders = 0;
+        let canceledOrders = 0;
+        let todaySales = 0;
+        let monthSales = 0;
+        let yearSales = 0;
+
+        const now = new Date();
+        const today = now.toDateString();
+        const thisMonth = now.getMonth();
+        const thisYear = now.getFullYear();
+
+        orders.forEach(order => {
+            if (order.deliveryStatus === 'Canceled') {
+                canceledOrders++;
+                return; // Skip canceled orders from financial calculations
+            }
+            
+            successfulOrders++;
+            const revenue = parseFloat(order.totalAmount) || 0;
+            totalRevenue += revenue;
+
+            // Time-based sales calculation
+            const orderDate = new Date(order.timestamp);
+            if (orderDate.toDateString() === today) {
+                todaySales += revenue;
+            }
+            if (orderDate.getFullYear() === thisYear && orderDate.getMonth() === thisMonth) {
+                monthSales += revenue;
+            }
+            if (orderDate.getFullYear() === thisYear) {
+                yearSales += revenue;
+            }
+        });
+
+        // Display results
+        totalRevenueEl.textContent = formatCurrency(totalRevenue);
+        totalOrdersEl.textContent = successfulOrders.toLocaleString('bn-BD');
+        canceledOrdersEl.textContent = canceledOrders.toLocaleString('bn-BD');
+        todaySalesEl.textContent = formatCurrency(todaySales);
+        monthSalesEl.textContent = formatCurrency(monthSales);
+        yearSalesEl.textContent = formatCurrency(yearSales);
+    }
 
     // --- Data Fetching and Display Logic ---
     async function fetchOrders() {
@@ -237,16 +279,16 @@
 
         try {
             const response = await fetch(SPREADSHEET_URL);
-            if (!response.ok) throw new Error(`নেটওয়ার্ক সমস্যা: ${response.statusText}`);
+            if (!response.ok) throw new Error(`নেটওয়ার্ক সমস্যা: ${response.statusText}`);
             const data = await response.json();
             
-            // Check for errors from the Apps Script itself
             if (data.status === 'error') throw new Error(data.message);
 
             if (data && Array.isArray(data)) {
-                displayOrders(data.reverse()); // নতুন অর্ডার প্রথমে দেখাবে
+                processAnalytics(data);
+                displayOrders(data.reverse());
             } else {
-                throw new Error("সঠিক ডেটা পাওয়া যায়নি।");
+                throw new Error("সঠিক ডেটা পাওয়া যায়নি।");
             }
         } catch (error) {
             showError(`ডেটা লোড করতে ব্যর্থ: ${error.message}`);
@@ -258,20 +300,19 @@
     function displayOrders(orders) {
         ordersTableBody.innerHTML = '';
         if (orders.length === 0) {
-            ordersTableBody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-muted-foreground">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
+            ordersTableBody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-muted-foreground">কোনো অর্ডার পাওয়া যায়নি।</td></tr>`;
         } else {
             orders.forEach(order => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-border hover:bg-muted/50';
                 
-                // Ensure all order properties exist to avoid 'undefined'
-                const timestamp = order.timestamp ? format_bengali_date(order.timestamp) : 'N/A';
+                const timestamp = order.timestamp ? formatBengaliDate(order.timestamp) : 'N/A';
                 const customerName = order.customerName || 'N/A';
                 const phoneNumber = order.phoneNumber || 'N/A';
                 const address = order.address || 'N/A';
                 const items = order.items || 'N/A';
                 const deliveryLocation = order.deliveryLocation === 'inside' ? 'গোপালগঞ্জ' : 'অন্যান্য জেলা';
-                const totalAmount = order.totalAmount ? `৳${order.totalAmount}` : 'N/A';
+                const totalAmount = order.totalAmount ? formatCurrency(parseFloat(order.totalAmount)) : 'N/A';
                 const deliveryStatus = order.deliveryStatus || 'Pending';
 
                 row.innerHTML = `
@@ -299,50 +340,43 @@
 
     // --- Status Update Logic ---
     async function updateStatus(rowIndex, newStatus) {
-      showToast('স্ট্যাটাস আপডেট করা হচ্ছে...');
-      try {
-        const response = await fetch(SPREADSHEET_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'updateStatus', rowIndex: rowIndex, status: newStatus })
-        });
-        
-        if (!response.ok) {
-            throw new Error(`সার্ভার এরর: ${response.status}`);
-        }
+        showToast('স্ট্যাটাস আপডেট করা হচ্ছে...');
+        try {
+            const response = await fetch(SPREADSHEET_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'updateStatus', rowIndex: rowIndex, status: newStatus })
+            });
+            
+            if (!response.ok) throw new Error(`সার্ভার এরর: ${response.status}`);
 
-        const result = await response.json();
-        
-        if (result.status === 'success') {
-          showToast(result.message, 'success');
-        } else {
-          throw new Error(result.message);
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                showToast(result.message, 'success');
+                fetchOrders(); // Reload data to update dashboard
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            showError(`স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে: ${error.message}`);
+            showToast('আপডেট ব্যর্থ হয়েছে', 'error');
         }
-      } catch (error) {
-        showError(`স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে: ${error.message}`);
-        showToast('আপডেট ব্যর্থ হয়েছে', 'error');
-      }
     }
     
     // --- UI Helper Functions ---
     function showError(message) {
-      errorText.textContent = message;
-      errorMessage.classList.remove('hidden');
+        errorText.textContent = message;
+        errorMessage.classList.remove('hidden');
     }
     
     function showToast(message, type = 'info') {
         toastMessage.textContent = message;
+        toastNotification.classList.remove('bg-green-500', 'bg-red-500', 'bg-blue-500');
 
-        // Reset classes
-        toastNotification.classList.remove('bg-green-500', 'bg-red-500');
-
-        if (type === 'success') {
-            toastNotification.classList.add('bg-green-500');
-        } else if (type === 'error') {
-            toastNotification.classList.add('bg-red-500');
-        } else { // 'info'
-            toastNotification.classList.add('bg-blue-500');
-        }
+        if (type === 'success') toastNotification.classList.add('bg-green-500');
+        else if (type === 'error') toastNotification.classList.add('bg-red-500');
+        else toastNotification.classList.add('bg-blue-500');
 
         toastNotification.classList.remove('hidden');
         setTimeout(() => {
@@ -352,17 +386,13 @@
 
     // --- Event Listeners ---
     themeToggleBtn.addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark');
-      if (document.documentElement.classList.contains('dark')) {
-        localStorage.setItem('theme', 'dark');
-      } else {
-        localStorage.setItem('theme', 'light');
-      }
-      updateTheme();
+        document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        updateTheme();
     });
     
     reloadBtn.addEventListener('click', fetchOrders);
 
-  </script>
+    </script>
 </body>
 </html>
